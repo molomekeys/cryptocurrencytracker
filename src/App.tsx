@@ -23,22 +23,40 @@ function App() {
   
 
   const columns=[
+   
+    
     {
-      Header:'Id',
-      accessor:'id'
-    } ,{
+      Header:'Name',
+      accessor:'icon',
+      Cell:({value})=>{
+        return (<div className='w-full self-center justify-center flex'><img src={value} width='40px'/></div>)
+      }
+    },
+    {
       Header:'price',
-      accessor:'price'
-    } ,{
+      accessor:'price',
+      Cell:({value})=>{
+        return (<p>{`${value?.toFixed(4)}`} $</p>)
+      }
+    }, ,{
       Header:'1h',
-      accessor:'priceChange1h'
+      accessor:'priceChange1h',
+      Cell:({value})=>{
+        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
+      }
     },{
       Header:'24h',
-      accessor:'priceChange1d'
+      accessor:'priceChange1d',
+      Cell:({value})=>{
+        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
+      }
     }
     ,{
       Header:'1w',
-      accessor:'priceChange1w'
+      accessor:'priceChange1w',
+      Cell:({value})=>{
+        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
+      }
     }
   
   ]
@@ -56,7 +74,7 @@ const {data,isLoading}=useQuery({queryKey:['slt'],
 )
 const {data :tableData}=useQuery({queryKey:['tableCoins'],
   queryFn:async()=> {
-    let res = await axios.get('https://api.coinstats.app/public/v1/coins?skip=0&limit=5&currency=EUR    ')
+    let res = await axios.get('https://api.coinstats.app/public/v1/coins?skip=0&limit=20&currency=EUR    ')
     return res.data.coins
   
   }
@@ -104,10 +122,10 @@ if(isLoading){
             rows.map(row=>{
               prepareRow(row)
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} className="">
                     {
                       row.cells.map((cell)=>{
-                        return <td {...cell.getCellProps()} className="text-slate-100 font-semibold"> {cell.render('Cell')}</td>
+                        return <td {...cell.getCellProps()} className="text-slate-100 font-semibold self-center justify-self-center p-6"> {cell.render('Cell')}</td>
                       })
                     }
                 </tr>
