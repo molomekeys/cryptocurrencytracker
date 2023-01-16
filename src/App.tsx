@@ -2,7 +2,7 @@ import { useState ,useMemo} from 'react'
 import axios from 'axios'
 import {useQuery} from '@tanstack/react-query'
 import {Line} from 'react-chartjs-2';
-import {useTable,useSortBy} from 'react-table'
+import {useTable,useSortBy,useGlobalFilter,useFilters} from 'react-table'
 import { Chart as ChartJS,
   CategoryScale,LinearScale,PointElement,LineElement
 } from 'chart.js'
@@ -25,7 +25,13 @@ function App() {
   const columns=[
    
     
-    {
+    { 
+    accessor:'id',
+    Cell:()=>{
+      return 
+    }
+  },
+      {
       Header:'Name',
       accessor:'icon',
       Cell:({value})=>{
@@ -82,11 +88,12 @@ const {data :tableData}=useQuery({queryKey:['tableCoins'],
 
 )
 console.log(tableData)
-
 const columnData=useMemo(()=> columns ,[]);
 const rowData=useMemo(()=> tableData? tableData : ['id:1'],[tableData]);
-const tableInstance=useTable({columns:columnData,data:rowData},useSortBy);
-const {getTableProps,getTableBodyProps,headerGroups,rows,prepareRow,}=tableInstance
+const tableInstance=useTable({columns:columnData,data:rowData},useFilters,useGlobalFilter,useSortBy);
+const {getTableProps,getTableBodyProps,headerGroups,rows,prepareRow,state,setGlobalFilter}
+=tableInstance
+const ValueOfFilter=state?.globalFilter;
 console.log(tableInstance)
 if(isLoading){
   return <p>Data is Loading</p>
@@ -102,7 +109,11 @@ if(isLoading){
         </div>
     </div>
     <div className='w-screen h-full '>
-    <div className='w-full items-center flex justify-center p-10  '>
+    <div className='w-screen items-center flex-col flex justify-center px-20   '>
+     <div className='w-full flex items-center px-20 py-4'>
+      <input placeholder='Search for a coin' value={ValueOfFilter? ValueOfFilter : ''} onChange={(e)=>setGlobalFilter(e.target.value.toLowerCase())} className="border-2 rounded-lg w-full self-center p-2"/>
+     </div>
+     
       <table {...getTableProps()} className=" h-full bg-slate-900 text-center w-full">
         <thead className=' border-b-2 border-gray-400 text-slate-200  bg-slate-800  ' >
           {
@@ -111,7 +122,7 @@ if(isLoading){
                 
               {
                 headerGroup.headers.map((column:any)=>(
-                  <th  className='p-2 py-4  italic' {...column.getHeaderProps(column?.getSortByToggleProps())}>{column.render('Header')}</th>
+                  <th  className='p-2 py-4  italic ' {...column.getHeaderProps(column?.getSortByToggleProps())}>{column.render('Header')}</th>
 
                 ))
               }
