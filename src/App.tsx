@@ -36,7 +36,7 @@ function App() {
       Header:'price',
       accessor:'price',
       Cell:({value})=>{
-        return (<p>{`${value?.toFixed(4)}`} $</p>)
+        return (<p>{`${ value>1? value?.toFixed(4) : value?.toFixed(6)}`} $</p>)
       }
     }, ,{
       Header:'1h',
@@ -74,7 +74,7 @@ const {data,isLoading}=useQuery({queryKey:['slt'],
 )
 const {data :tableData}=useQuery({queryKey:['tableCoins'],
   queryFn:async()=> {
-    let res = await axios.get('https://api.coinstats.app/public/v1/coins?skip=0&limit=20&currency=EUR    ')
+    let res = await axios.get('https://api.coinstats.app/public/v1/coins?skip=0&limit=200&currency=EUR    ')
     return res.data.coins
   
   }
@@ -101,8 +101,9 @@ if(isLoading){
           }]}}/>
         </div>
     </div>
-    <div className='w-screen bg-slate-50 h-screen flex flex-col p-20'>
-      <table {...getTableProps()} className="w-full h-full bg-slate-900 text-center">
+    <div className='w-screen h-full '>
+    <div className='w-full items-center flex justify-center p-10  '>
+      <table {...getTableProps()} className=" h-full bg-slate-900 text-center w-full">
         <thead className=' border-b-2 border-slate-100 text-slate-300  bg-slate-800 font-medium ' >
           {
             headerGroups.map((headerGroup)=>(
@@ -134,6 +135,7 @@ if(isLoading){
           }
         </tbody>
       </table>
+      </div>
     </div>
     </div>
   )
