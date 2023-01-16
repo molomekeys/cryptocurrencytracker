@@ -34,33 +34,40 @@ function App() {
       {
       Header:'Name',
       accessor:'icon',
-      Cell:({value})=>{
+      Cell:({value}:any)=>{
         return (<div className='w-full self-center justify-center flex'><img src={value} width='40px'/></div>)
       }
     },
     {
       Header:'Price',
       accessor:'price',
-      Cell:({value})=>{
+      Cell:({value}:any)=>{
         return (<p>{`${ value>1? value?.toFixed(4) : value?.toFixed(4)}`} $</p>)
       }
     }, ,{
       Header:'H',
       accessor:'priceChange1h',
-      Cell:({value})=>{
+      Cell:({value}:any)=>{
         return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
       }
     },{
       Header:'D',
       accessor:'priceChange1d',
-      Cell:({value})=>{
+      Cell:({value}:any)=>{
         return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'} `}>{value}%</p>)
       }
     },{
       Header:'W',
       accessor:'priceChange1w',
-      Cell:({value})=>{
+      Cell:({value}:any)=>{
         return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'} `}>{value}%</p>)
+      }
+    }
+    ,{
+      Header:'',
+      accessor:'symbol',
+      Cell:()=>{
+        return (<button className='bg-slate-700 w-full h-full  text-slate-200 rounded-lg text-xs'>See more </button>)
       }
     }
     
