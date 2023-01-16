@@ -33,31 +33,31 @@ function App() {
       }
     },
     {
-      Header:'price',
+      Header:'Price',
       accessor:'price',
       Cell:({value})=>{
-        return (<p>{`${ value>1? value?.toFixed(4) : value?.toFixed(6)}`} $</p>)
+        return (<p>{`${ value>1? value?.toFixed(4) : value?.toFixed(4)}`} $</p>)
       }
     }, ,{
-      Header:'1h',
+      Header:'H',
       accessor:'priceChange1h',
       Cell:({value})=>{
         return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
       }
     },{
-      Header:'24h',
+      Header:'D',
       accessor:'priceChange1d',
       Cell:({value})=>{
-        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
+        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'} `}>{value}%</p>)
       }
-    }
-    ,{
-      Header:'1w',
+    },{
+      Header:'W',
       accessor:'priceChange1w',
       Cell:({value})=>{
-        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'}`}>{value}%</p>)
+        return (<p className={`${value>0? 'text-emerald-400' : 'text-red-400'} `}>{value}%</p>)
       }
     }
+    
   
   ]
 
@@ -104,14 +104,14 @@ if(isLoading){
     <div className='w-screen h-full '>
     <div className='w-full items-center flex justify-center p-10  '>
       <table {...getTableProps()} className=" h-full bg-slate-900 text-center w-full">
-        <thead className=' border-b-2 border-slate-100 text-slate-300  bg-slate-800 font-medium ' >
+        <thead className=' border-b-2 border-gray-400 text-slate-200  bg-slate-800  ' >
           {
             headerGroups.map((headerGroup)=>(
               <tr {...headerGroup.getHeaderGroupProps()}>
                 
               {
                 headerGroup.headers.map((column:any)=>(
-                  <th  className='p-2 text-xl' {...column.getHeaderProps(column?.getSortByToggleProps())}>{column.render('Header')}</th>
+                  <th  className='p-2 py-4  italic' {...column.getHeaderProps(column?.getSortByToggleProps())}>{column.render('Header')}</th>
 
                 ))
               }
